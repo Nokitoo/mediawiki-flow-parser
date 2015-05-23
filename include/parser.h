@@ -13,7 +13,7 @@ struct			s_topic
 
 struct			s_topic_content
 {
-  char			*content;
+  char			*text;
   t_topic_content	*next;
 };
 
