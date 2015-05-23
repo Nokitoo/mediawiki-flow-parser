@@ -6,6 +6,7 @@ SRCS = $(filter-out %~,$(shell ls src))
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
 CFLAGS = -W -Wall -Werror -Wextra
+LDFLAGS =
 
 all: $(NAME)
 
