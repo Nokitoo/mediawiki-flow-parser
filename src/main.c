@@ -15,7 +15,7 @@ int		main(int ac, char **av)
   (void)topic;
   if (ac < 2)
     return (usage(av[0]));
-  if (get("http://www.google.fr", "http://www.google.fr"))
+  if (get("http://www.google.fr"))
     return (1);
   destroy_linked_list(&topic);
   return (0);
