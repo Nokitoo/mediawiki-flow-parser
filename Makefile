@@ -6,7 +6,7 @@ SRCS = $(filter-out %~,$(shell ls src))
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
 CFLAGS = -W -Wall -Werror -Wextra
-LDFLAGS = -L/gumbo-parser -Wl,-Rgumbo-parser -lgumbo
+LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -lgumbo
 
 all: $(NAME)
 
