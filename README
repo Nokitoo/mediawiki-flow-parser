@@ -1,0 +1,36 @@
+Wikimedia Flow Parser
+========================================
+
+Convert a Wikimedia Flow to a terminal flow. (Readable by bots or humans)
+API_PATH is the directory path of API.
+
+Installation instructions
+-------------------------
+
+1. Install the cURL library:
+
+    $ cd API_PATH/curl
+    $ ./configure
+    $ make
+    $ sudo make install
+
+2. Install the jansson library:
+
+    $ cd API_PATH/jansson
+    $ ./configure
+    $ make
+    $ sudo make install
+
+3. Start the API with the url of flow as parameter:
+
+    $ cd API_PATH
+    $ make
+    $ ./flow_parser "http://url_of_flow/"
+
+4. Use of API:
+
+   $ Type "exit" or press ^D to exit the API
+
+Other resources
+---------------
+
