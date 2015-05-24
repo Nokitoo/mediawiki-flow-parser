@@ -16,7 +16,7 @@ $(NAME): $(OBJS)
 
 obj/%.o: src/%.c
 	 @mkdir -p obj
-	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ -Ijansson/include/ -Ilibcurl/includes/ $(CFLAGS)
+	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ -Ijansson/include/ -Ilibcurl/include/ $(CFLAGS)
 
 clean:
 	rm -f $(OBJS)

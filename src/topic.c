@@ -15,7 +15,7 @@ t_topic		*addTopic(t_topic **topic, char *id)
   t_topic	*newElement;
 
   newElement = malloc(sizeof(*newElement));
-  if (newElement == NULL)
+  if (newElement == NULL || id == NULL)
     return (NULL);
   newElement->name = NULL;
   newElement->text = NULL;
