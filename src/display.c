@@ -30,7 +30,7 @@ int		bot_response()
   if (res == -1)
     return (-1);
   buffer[res - 1] = '\0';
-  if (!strcmp(buffer, "exit"))
+  if (!strcmp(buffer, "exit") || res == 0)
     return (-2);
   res = atoi(buffer);
   if (res == 0)
