@@ -5,12 +5,34 @@ void		displayTopics(t_topic *topic)
 {
   while (topic)
     {
-      printf("%s %s\n", topic->id, topic->name);
+      printf("%s %s %s\n", topic->id, topic->postId, topic->name);
       topic = topic->next;
     }
 }
 
-t_topic		*addTopic(t_topic **topic, char *id)
+t_topic		*getTopicFromId(t_topic *topic, const char *id)
+{
+  while (topic)
+    {
+      if (!strcmp(topic->id, id))
+	return (topic);
+      topic = topic->next;
+    }
+  return (NULL);
+}
+
+t_topic		*getTopicFromPostId(t_topic *topic, const char *id)
+{
+  while (topic)
+    {
+      if (!strcmp(topic->postId, id))
+	return (topic);
+      topic = topic->next;
+    }
+  return (NULL);
+}
+
+t_topic		*addTopic(t_topic **topic, const char *id)
 {
   t_topic	*newElement;
 
@@ -20,6 +42,7 @@ t_topic		*addTopic(t_topic **topic, char *id)
   newElement->name = NULL;
   newElement->text = NULL;
   newElement->id = strdup(id);
+  newElement->postId = NULL;
   if (newElement->id == NULL)
     {
       free(newElement);

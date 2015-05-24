@@ -5,7 +5,7 @@ NAME = flow_parser
 SRCS = $(filter-out %~,$(shell ls src))
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
-CFLAGS = -W -Wall -Werror -Wextra
+CFLAGS = -W -Wall -Werror -Wextra -O3
 
 LDFLAGS = -ljansson -lcurl
 

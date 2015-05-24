@@ -1,8 +1,6 @@
 #ifndef		_DISPLAY_H_
 # define	_DISPLAY_H_
 
-#define		EPITECH_IS_ALIVE 42
-
 #include	"parser.h"
 
 void		display_topic(t_topic *topic);
