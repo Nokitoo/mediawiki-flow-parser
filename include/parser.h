@@ -39,5 +39,6 @@ char			*request(const char *url);
 t_post			*getTopicPosts(char *topicName);
 void			displayPosts(t_post *post);
 void			destroy_posts(t_post *post);
+char			*lowerCase(char *s);
 
 #endif /* !PARSER_H_ */

@@ -21,7 +21,7 @@ void		addPost(t_post **posts, const char *id)
   (*posts) = new;
 }
 
-t_post		*initPostsId(json_t *topic)
+t_post		*initPostsId(json_t *topic, char *topicId)
 {
   t_post	*posts;
   json_t	*postJson;
@@ -37,7 +37,8 @@ t_post		*initPostsId(json_t *topic)
     {
       key = json_object_iter_key(iter);
       iter = json_object_iter_next(postJson, iter);
-      addPost(&posts, key);
+      if (strcmp(key, topicId))
+	addPost(&posts, key);
     }
   return (posts);
 }
@@ -51,6 +52,7 @@ t_post		*getTopicPosts(char *topicId)
   char		*url;
   char		*content;
 
+  topicId = lowerCase(strdup(topicId));
   url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topic&format=json&page=Topic:"), topicId);
   content = request(url);
   if (!content)
@@ -64,6 +66,7 @@ t_post		*getTopicPosts(char *topicId)
   free(content);
   if (!json)
     {
+      free(topicId);
       fprintf(stderr, "error: on line %d: %s\n", error.line, error.text);
       return (NULL);
     }
@@ -71,11 +74,13 @@ t_post		*getTopicPosts(char *topicId)
   if (!json_is_object(topic))
     {
       json_decref(json);
+      free(topicId);
       printf("Failed to get topic field\n");
       return (NULL);
     }
-  posts = initPostsId(topic);
+  posts = initPostsId(topic, topicId);
   json_decref(json);
+  free(topicId);
   return (posts);
 }
 
