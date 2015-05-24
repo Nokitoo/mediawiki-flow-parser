@@ -40,13 +40,11 @@ int		bot_response()
 
 t_topic		*request_for_topic(t_topic *topic, int nb)
 {
-t_topic		*tmp;
+  t_topic       *tmp;
   int		i;
 
   tmp = topic;
   for (i = 1; i < nb && tmp; i++)
     tmp = tmp->next;
-  if (tmp)
-    return (NULL);
   return (tmp);
 }
