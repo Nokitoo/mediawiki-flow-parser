@@ -29,7 +29,9 @@ int		bot_response()
   res = read(0, buffer, 32);
   if (res == -1)
     return (-1);
-  buffer[res] = '\0';
+  buffer[res - 1] = '\0';
+  if (!strcmp(buffer, "exit"))
+    return (-2);
   res = atoi(buffer);
   if (res == 0)
     return (-1);
