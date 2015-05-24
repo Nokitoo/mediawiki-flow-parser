@@ -37,6 +37,7 @@ void            destroy_linked_list(t_topic **topic)
   while (*topic)
     {
       tmp = (*topic)->next;
+      free((*topic)->id);
       free(*topic);
       (*topic) = tmp;
     }
