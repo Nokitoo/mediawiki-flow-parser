@@ -19,7 +19,7 @@ t_topic		*addTopic(t_topic **topic, char *id)
     return (NULL);
   newElement->name = NULL;
   newElement->text = NULL;
-  newElement->id = id;
+  newElement->id = strdup(id);
   newElement->next = *topic;
   *topic = newElement;
   return (newElement);
