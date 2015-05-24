@@ -93,7 +93,6 @@ int			getTopicsName(json_t *topicList, t_topic *topics)
 	    tmp->name = strdup(json_string_value(data));
 	}
     }
-  (void)topics;
   return (0);
 }
 
@@ -136,7 +135,11 @@ t_topic		*getTopics(char *page)
     }
   topicList = json_object_get(json_object_get(json_object_get(json_object_get(json, "flow"), "view-topiclist"), "result"), "topiclist");
   if (!json_is_object(topicList))
-    return (NULL);
+    {
+      json_decref(json);
+      return (NULL);
+    }
   topics = getFromJson(topicList);
+  json_decref(json);
   return (topics);
 }

@@ -21,7 +21,7 @@ void		addPost(t_post **posts, const char *id)
   (*posts) = new;
 }
 
-t_post		*getTopicPosts(json_t *topic)
+t_post		*initPostsId(json_t *topic)
 {
   t_post	*posts;
   json_t	*postJson;
@@ -30,35 +30,65 @@ t_post		*getTopicPosts(json_t *topic)
 
   posts = NULL;
   postJson = json_object_get(topic, "posts");
- if (!json_is_object(postJson))
-   return (NULL);
- iter = json_object_iter(postJson);
- while (iter)
-   {
-     key = json_object_iter_key(iter);
-     iter = json_object_iter_next(postJson, iter);
-     addPost(&posts, key);
-   }
+  if (!json_is_object(postJson))
+    return (NULL);
+  iter = json_object_iter(postJson);
+  while (iter)
+    {
+      key = json_object_iter_key(iter);
+      iter = json_object_iter_next(postJson, iter);
+      addPost(&posts, key);
+    }
   return (posts);
 }
 
-void		parseJson(char *html)
+t_post		*getTopicPosts(char *topicId)
 {
   json_t	*json;
   json_t	*topic;
   json_error_t	error;
-  t_post	*post;
+  t_post	*posts;
+  char		*url;
+  char		*content;
 
- json = json_loads(html, 0, &error);
- free(html);
+  url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topic&format=json&page=Topic:"), topicId);
+  content = request(url);
+  if (!content)
+    {
+      fprintf(stderr, "Failed to requests url %s\n", url);
+      free(url);
+      return (NULL);
+    }
+  free(url);
+  json = json_loads(content, 0, &error);
+  free(content);
   if (!json)
     {
       fprintf(stderr, "error: on line %d: %s\n", error.line, error.text);
-      return ;
+      return (NULL);
     }
- topic = json_object_get(json_object_get(json_object_get(json_object_get(json, "flow"), "view-topic"), "result"), "topic");
- if(!json_is_object(topic))
-   return ;
- post = getTopicPosts(topic);
- displayPosts(post);
+  topic = json_object_get(json_object_get(json_object_get(json_object_get(json, "flow"), "view-topic"), "result"), "topic");
+  if (!json_is_object(topic))
+    {
+      json_decref(json);
+      printf("Failed to get topic field\n");
+      return (NULL);
+    }
+  posts = initPostsId(topic);
+  json_decref(json);
+  return (posts);
+}
+
+void		destroy_posts(t_post *post)
+{
+  t_post	*tmp;
+
+  while (post)
+    {
+      tmp = post->next;
+      if (post->id)
+	free(post->id);
+      free(post);
+      post = tmp;
+    }
 }

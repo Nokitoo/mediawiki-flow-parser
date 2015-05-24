@@ -56,20 +56,20 @@ t_topic		*addTopic(t_topic **topic, const char *id)
   return (newElement);
 }
 
-void            destroy_linked_list(t_topic **topic)
+void            destroy_topics(t_topic *topic)
 {
   t_topic       *tmp;
 
-  while (*topic)
+  while (topic)
     {
-      tmp = (*topic)->next;
-      if ((*topic)->name)
-	free((*topic)->name);
-      if ((*topic)->postId)
-	free((*topic)->postId);
-      if ((*topic)->id)
-	free((*topic)->id);
-      free(*topic);
-      (*topic) = tmp;
+      tmp = topic->next;
+      if (topic->name)
+	free(topic->name);
+      if (topic->postId)
+	free(topic->postId);
+      if (topic->id)
+	free(topic->id);
+      free(topic);
+      topic = tmp;
     }
 }
