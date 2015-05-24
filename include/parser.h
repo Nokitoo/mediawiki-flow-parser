@@ -15,6 +15,7 @@ struct			s_topic
   char			*name;
   char			*id;
   char			*text;
+  int			nb;
   t_topic		*next;
 };
 
