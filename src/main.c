@@ -73,6 +73,10 @@ int		usage(char *bin)
 
 int		main(int ac, char **av)
 {
+  t_topic	*topic;
+
+  topic = NULL;
+  (void)topic;
   if (ac < 2)
     return (usage(av[0]));
   if (get("http://www.google.fr", "http://www.google.fr"))
