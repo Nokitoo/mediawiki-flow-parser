@@ -1,22 +1,28 @@
 #include <stdlib.h>
 #include "parser.h"
 
-int		addTopic(t_topic **topic, char *name, char *text, char *id)
+void		displayTopics(t_topic *topic)
+{
+  while (topic)
+    {
+      printf("%s %s\n", topic->id, topic->name);
+      topic = topic->next;
+    }
+}
+
+t_topic		*addTopic(t_topic **topic, char *id)
 {
   t_topic	*newElement;
 
-  newElement = NULL;
-  if (name == NULL || text == NULL || id == NULL)
-    return (1);
   newElement = malloc(sizeof(*newElement));
   if (newElement == NULL)
-    return (1);
-  newElement->name = name;
-  newElement->text = text;
-  newElement->id = id;
+    return (NULL);
+  newElement->name = NULL;
+  newElement->text = NULL;
+  newElement->id = strdup(id);
   newElement->next = *topic;
   *topic = newElement;
-  return (0);
+  return (newElement);
 }
 
 void            destroy_linked_list(t_topic **topic)
