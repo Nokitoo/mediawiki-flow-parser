@@ -29,5 +29,4 @@ void            destroy_linked_list(t_topic **topic)
       free(*topic);
       (*topic) = tmp;
     }
-  return (0);
 }
