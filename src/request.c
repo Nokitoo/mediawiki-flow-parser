@@ -11,7 +11,7 @@
 #include <jansson.h>
 #include <curl/curl.h>
 
-#define BUFFER_SIZE  (256 * 1024)  /* 256 KB */
+#define BUFFER_SIZE  (256 * 1024) * 4 /* 256 KB * 4 */
 
 #define URL_FORMAT   "https://api.github.com/repos/%s/%s/commits"
 #define URL_SIZE     256

@@ -117,7 +117,7 @@ t_topic		*getTopics(char *page)
   char		*url;
   char		*content;
 
-  url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topiclist&format=json&page="), page);
+  url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topiclist&format=json&vtllimit=10&page="), page);
   json = NULL;
   content = request(url);
   if (!content)

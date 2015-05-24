@@ -1,15 +1,6 @@
 #include <stdlib.h>
 #include "parser.h"
 
-void		displayTopics(t_topic *topic)
-{
-  while (topic)
-    {
-      printf("%s %s %s\n", topic->id, topic->postId, topic->name);
-      topic = topic->next;
-    }
-}
-
 t_topic		*getTopicFromId(t_topic *topic, const char *id)
 {
   while (topic)
@@ -35,12 +26,14 @@ t_topic		*getTopicFromPostId(t_topic *topic, const char *id)
 t_topic		*addTopic(t_topic **topic, const char *id)
 {
   t_topic	*newElement;
+  t_topic	*tmp;
 
+  tmp = *topic;
   newElement = malloc(sizeof(*newElement));
   if (newElement == NULL || id == NULL)
     return (NULL);
   newElement->name = NULL;
-  newElement->text = NULL;
+  newElement->next = NULL;
   newElement->id = strdup(id);
   newElement->postId = NULL;
   if (newElement->id == NULL)
@@ -48,8 +41,18 @@ t_topic		*addTopic(t_topic **topic, const char *id)
       free(newElement);
       return (NULL);
     }
-  newElement->next = *topic;
-  *topic = newElement;
+  if (!tmp)
+    {
+      *topic = newElement;
+      (*topic)->next = NULL;
+    }
+  else
+    {
+      while (tmp && tmp->next)
+	tmp = tmp->next;
+      tmp->next = newElement;
+      newElement->prev = tmp;
+    }
   return (newElement);
 }
 
@@ -60,7 +63,12 @@ void            destroy_linked_list(t_topic **topic)
   while (*topic)
     {
       tmp = (*topic)->next;
-      free((*topic)->id);
+      if ((*topic)->name)
+	free((*topic)->name);
+      if ((*topic)->postId)
+	free((*topic)->postId);
+      if ((*topic)->id)
+	free((*topic)->id);
       free(*topic);
       (*topic) = tmp;
     }

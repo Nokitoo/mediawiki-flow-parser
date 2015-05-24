@@ -22,9 +22,9 @@ struct			s_topic
   char			*name;
   char			*id;
   char			*postId;
-  char			*text;
   int			nb;
   t_topic		*next;
+  t_topic		*prev;
 };
 
 t_topic			*addTopic(t_topic **topic, const char *id);
@@ -32,7 +32,6 @@ t_topic			*getTopicFromId(t_topic *topic, const char *id);
 t_topic			*getTopicFromPostId(t_topic *topic, const char *id);
 void			destroy_linked_list(t_topic **topic);
 t_topic			*getTopics(char *html);
-void			displayTopics(t_topic *topic);
 void			parseJson(char *html);
 int			get(char *url);
 char			*append(char *s1, char *s2);
