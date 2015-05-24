@@ -5,9 +5,9 @@ NAME = flow_parser
 SRCS = $(filter-out %~,$(shell ls src))
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
-CFLAGS = -W -Wall -Werror -Wextra -g
+CFLAGS = -W -Wall -Werror -Wextra -g -MD
 
-LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson -Llibcurl -Wl,-Rlibcurl -lcurl
+LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson -Llibcurl -Wl,-Rlibcurl -lcurl -lssl
 
 all: $(NAME)
 
