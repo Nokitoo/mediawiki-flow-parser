@@ -31,5 +31,6 @@ void			destroy_linked_list(t_topic **topic);
 t_topic			*getTopics(char *html);
 void			displayTopics(t_topic *topic);
 void			parseJson(char *html);
+int			get(char *url);
 
 #endif /* !PARSER_H_ */
