@@ -11,11 +11,11 @@ LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -lgumbo
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS) $(CFLAGS)
+	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 obj/%.o: src/%.c
 	 @mkdir -p obj
-	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/
+	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ $(CFLAGS)
 
 clean:
 	rm -f $(OBJS)
