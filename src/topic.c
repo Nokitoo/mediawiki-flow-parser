@@ -20,6 +20,11 @@ t_topic		*addTopic(t_topic **topic, char *id)
   newElement->name = NULL;
   newElement->text = NULL;
   newElement->id = strdup(id);
+  if (newElement->id == NULL)
+    {
+      free(newElement);
+      return (NULL);
+    }
   newElement->next = *topic;
   *topic = newElement;
   return (newElement);
