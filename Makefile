@@ -7,7 +7,7 @@ OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
 CFLAGS = -W -Wall -Werror -Wextra -g -MD
 
-LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson -Llibcurl -Wl,-Rlibcurl -lcurl -lssl
+LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson -Llibcurl -Wl,-Rlibcurl -lcurl
 
 all: $(NAME)
 
