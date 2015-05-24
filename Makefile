@@ -6,16 +6,16 @@ SRCS = $(filter-out %~,$(shell ls src))
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
 CFLAGS = -W -Wall -Werror -Wextra
-LDFLAGS =
+LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -lgumbo
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS) $(CFLAGS)
+	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 obj/%.o: src/%.c
 	 @mkdir -p obj
-	 $(CC) -o $@ -c $< -I include/
+	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ $(CFLAGS)
 
 clean:
 	rm -f $(OBJS)
