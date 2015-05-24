@@ -2,12 +2,18 @@
 #include <stdio.h>
 #include "parser.h"
 
-void	display_topic(t_topic *topic)
+void		display_topic(t_topic *topic)
 {
-  return ;
-}
+  long		i;
+  t_topic	*tmp;
 
-void	display_topic_content(t_topic_content *content, char *id)
-{
+  i = 0;
+  tmp = topic;
+  printf("List of topics: \n");
+  while (tmp)
+    {
+      printf("%ld - %s\n", i++, tmp->name);
+      tmp = tmp->next;
+    }
   return ;
 }

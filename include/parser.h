@@ -13,13 +13,10 @@ struct			s_topic
 {
   char			*name;
   char			*id;
+  char			*text;
   t_topic		*next;
 };
 
-struct			s_topic_content
-{
-  char			*text;
-  t_topic_content	*next;
-};
+int			addTopic(t_topic **topic, char *name, char *text, char *id);
 
 #endif /* !PARSER_H_ */
