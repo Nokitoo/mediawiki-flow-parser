@@ -18,3 +18,16 @@ int		addTopic(t_topic **topic, char *name, char *text, char *id)
   *topic = newElement;
   return (0);
 }
+
+void            destroy_linked_list(t_topic **topic)
+{
+  t_topic       *tmp;
+
+  while (*topic)
+    {
+      tmp = (*topic)->next;
+      free(*topic);
+      (*topic) = tmp;
+    }
+  return (0);
+}

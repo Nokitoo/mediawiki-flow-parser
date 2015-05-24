@@ -7,7 +7,6 @@
 # include <unistd.h>
 
 typedef struct		s_topic	t_topic;
-typedef struct		s_topic_content t_topic_content;
 
 struct			s_topic
 {
@@ -18,5 +17,6 @@ struct			s_topic
 };
 
 int			addTopic(t_topic **topic, char *name, char *text, char *id);
+void			destroy_linked_list(t_topic **topic);
 
 #endif /* !PARSER_H_ */
