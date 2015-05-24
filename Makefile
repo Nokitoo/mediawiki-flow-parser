@@ -7,7 +7,7 @@ OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 
 CFLAGS = -W -Wall -Werror -Wextra -g -MD
 
-LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson -Llibcurl -Wl,-Rlibcurl -lcurl
+LDFLAGS = -Lgumbo-parser -Wl,-Rgumbo-parser -Ljansson -Wl,-Rjansson -lgumbo -ljansson
 
 all: $(NAME)
 
@@ -16,7 +16,7 @@ $(NAME): $(OBJS)
 
 obj/%.o: src/%.c
 	 @mkdir -p obj
-	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ -Ijansson/include/ -Ilibcurl/include/ $(CFLAGS)
+	 $(CC) -o $@ -c $< -I include/ -Igumbo-parser/includes/ -Ijansson/include/ $(CFLAGS)
 
 clean:
 	rm -f $(OBJS)
