@@ -15,11 +15,16 @@ t_topic		*addTopic(t_topic **topic, char *id)
   t_topic	*newElement;
 
   newElement = malloc(sizeof(*newElement));
-  if (newElement == NULL)
+  if (newElement == NULL || id == NULL)
     return (NULL);
   newElement->name = NULL;
   newElement->text = NULL;
-  newElement->id = id;
+  newElement->id = strdup(id);
+  if (newElement->id == NULL)
+    {
+      free(newElement);
+      return (NULL);
+    }
   newElement->next = *topic;
   *topic = newElement;
   return (newElement);
