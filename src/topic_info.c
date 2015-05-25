@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "jansson.h"
 
-void		displayTopicInfos(t_topic_info *infos)
+void		displayTopicInfos(t_topic_info *infos, __attribute__((unused))int isHuman)
 {
   t_post	*post;
 

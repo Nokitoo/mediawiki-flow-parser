@@ -56,7 +56,7 @@ int			get(char *url);
 char			*append(char *s1, char *s2);
 char			*request(const char *url);
 t_topic_info		*getTopicInfos(char *topicId);
-void			displayTopicInfos(t_topic_info *infos);
+void			displayTopicInfos(t_topic_info *infos, int isHuman);
 void			destroy_topic_info(t_topic_info *infos);
 char			*lowerCase(char *s);
 int			isAlpha(char c);
