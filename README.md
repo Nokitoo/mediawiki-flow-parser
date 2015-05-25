@@ -34,7 +34,7 @@ Installation instructions
 	flow-parser> Type "view-topiclist URL" to get the list of topics at URL.
 		     Get next topics by retype this command.
 	flow-parser> Type "view-topic TOPIC_NUMBER" to get the topic.
-	flow-parser> Type "exit" or press <kbd>Ctrl+D</kbd> to exit the API.
+	flow-parser> Type "exit" to exit the API.
 ```
 
 Other
