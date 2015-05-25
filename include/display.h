@@ -1,7 +1,7 @@
 #ifndef		_DISPLAY_H_
 # define	_DISPLAY_H_
 
-# define	PROMPT	"flow-parser>"
+# define	PROMPT	"flow-parser> "
 
 #include	"parser.h"
 
