@@ -2,6 +2,10 @@
 #include "parser.h"
 #include "cmd.h"
 
+int			getTagLength(char *s);
+char			*formatPostText(char *text);
+char			*removeChars(char *s, int n);
+
 int		main(int ac, char **av)
 {
   int		man;

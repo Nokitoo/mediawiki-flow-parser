@@ -32,7 +32,7 @@ int		read_cmd(t_topic **topics, t_topic_info **infos, int isHuman)
 	  *topics = viewtopiclist(*topics, url, isHuman, &from);
 	}
       else if (!strcmp(buffer, "view-topic"))
-	*infos = viewtopic(*topics, *infos, str);
+	*infos = viewtopic(*topics, *infos, str, isHuman);
     }
   return (0);
 }
@@ -47,11 +47,11 @@ t_topic		*viewtopiclist(t_topic *topics, char *url, int isHuman, int *from)
   return (topics);
 }
 
-t_topic_info		*viewtopic(t_topic *topic, t_topic_info *infos, char *url)
+t_topic_info		*viewtopic(t_topic *topic, t_topic_info *infos, char *url, int isHuman)
 {
   int			res;
   t_topic		*tmp;
-  
+
   res = atoi(url);
   if (res <= 0)
     return (NULL);
@@ -59,7 +59,7 @@ t_topic_info		*viewtopic(t_topic *topic, t_topic_info *infos, char *url)
   if (tmp == NULL)
     return (NULL);
   infos = getTopicInfos(tmp->id);
-  displayTopicInfos(infos);
+  displayTopicInfos(infos, isHuman);
   destroy_topic_info(infos);
   return (infos);
 }

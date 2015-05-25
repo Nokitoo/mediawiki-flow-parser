@@ -1,6 +1,6 @@
 #ifndef PARSER_H_
 # define PARSER_H_
-# define TOPICS_LIMIT "50"
+# define TOPICS_LIMIT "20"
 
 # include <stdio.h>
 # include <string.h>
@@ -34,6 +34,7 @@ struct			s_topic_info
   int			replies;
   t_post		*posts;
   t_date		date;
+  t_date		lastReply;
 };
 
 struct			s_topic

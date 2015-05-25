@@ -1,20 +1,52 @@
 #include "parser.h"
 #include "jansson.h"
 
-void		displayTopicInfos(t_topic_info *infos, __attribute__((unused))int isHuman)
+void		displayTopicInfosHuman(t_topic_info *infos)
+{
+  t_post	*post;
+
+  post = infos->posts;
+  printf("Topic Name: %s\n", infos->name);
+  printf("Replies nb: %d\n", infos->replies);
+  printf("Created: %s\n------------\n", infos->date.localTime);
+  printf("Last reply: %s\n------------\n\n", infos->lastReply.localTime);
+  while (post)
+    {
+      if (post->author && post->text)
+	{
+	  printf("Author: %s\n", post->author);
+	  printf("Message: %s\n------------\n\n", post->text);
+	}
+      post = post->next;
+    }
+}
+
+void		displayTopicInfosBot(t_topic_info *infos)
 {
   t_post	*post;
 
   post = infos->posts;
   printf("[%s]\n", infos->name);
-  printf("[%d]\n\n", infos->replies);
-  printf("[%s] [%s]\n\n", infos->date.timestamp, infos->date.localTime);
+  printf("[%d]\n", infos->replies);
+  printf("[%s] [%s]\n", infos->date.timestamp, infos->date.localTime);
+  printf("[%s] [%s]\n\n", infos->lastReply.timestamp, infos->lastReply.localTime);
   while (post)
     {
-      printf("[%s]\n", post->author);
-      printf("[%s]\n\n", post->text);
+      if (post->author && post->text)
+	{
+	  printf("[%s]\n", post->author);
+	  printf("[%s]\n\n", post->text);
+	}
       post = post->next;
     }
+}
+
+void		displayTopicInfos(t_topic_info *infos, int isHuman)
+{
+  if (isHuman)
+    displayTopicInfosHuman(infos);
+  else
+    displayTopicInfosBot(infos);
 }
 
 int	getPostNb(t_post *posts)
@@ -90,6 +122,8 @@ t_topic_info		*initTopicInfos(json_t *topic)
   infos->posts = NULL;
   infos->date.timestamp = NULL;
   infos->date.localTime = NULL;
+  infos->lastReply.timestamp = NULL;
+  infos->lastReply.localTime = NULL;
   infos->replies = 0;
   return (infos);
 }
@@ -118,9 +152,11 @@ int			getTagLength(char *s)
 {
   int			length;
   int			attribute;
+  char			quote;
 
   length = 1;
   attribute = 0;
+  quote = '\'';
   if (!s || *s != '<' || !*(s + 1))
     return (0);
   s++;
@@ -141,8 +177,11 @@ int			getTagLength(char *s)
       while (s && *s && (*s != '>' || attribute))
 	{
 	  if ((*s == '"' || (*s == '\'')) && !attribute)
-	    attribute = 1;
-	  else if ((*s == '"' || *s == '\'') && attribute && !isEscape(s))
+	    {
+	      quote = *s;
+	      attribute = 1;
+	    }
+	  else if (attribute && *s == quote && !isEscape(s))
 	    attribute = 0;
 	  s++;
 	  length++;
@@ -161,8 +200,9 @@ char			*formatPostText(char *text)
     {
       length = getTagLength(text);
       if (length)
-	text = removeChars(text, length + 1);
-      text++;
+	  text = removeChars(text, length + 1);
+      else
+	text++;
     }
   return (tmp);
 }
@@ -259,6 +299,22 @@ void		setTopicDate(json_t *revision, t_topic_info *infos)
     }
 }
 
+void		setTopicLastReply(json_t *revision, t_topic_info *infos)
+{
+  json_t	*content;
+  const char	*timestamp;
+  const char	*localTime;
+
+  content = json_object_get(revision, "timestamp");
+  if (json_is_string(content))
+    {
+      timestamp = json_string_value(content);
+      localTime = timestampToLocalTime(timestamp);
+      infos->lastReply.timestamp = timestamp ? strdup(timestamp) : NULL;
+      infos->lastReply.localTime =  localTime ? strdup(localTime) : NULL;
+    }
+}
+
 void		setTopicName(json_t *revision, t_topic_info *infos)
 {
   json_t	*content;
@@ -272,6 +328,15 @@ void		setTopicName(json_t *revision, t_topic_info *infos)
     }
 }
 
+char			*getLastId(t_post *posts)
+{
+  while (posts && posts->next)
+    posts = posts->next;
+  if (posts)
+    return (posts->id);
+  return (NULL);
+}
+
 void			setTopicInfos(t_topic_info *infos, json_t *topic, char *topicId)
 {
   json_t		*revisions;
@@ -279,7 +344,9 @@ void			setTopicInfos(t_topic_info *infos, json_t *topic, char *topicId)
   const char		*key;
   json_t		*value;
   const char		*revisionId;
+  char			*lastId;
 
+  lastId = getLastId(infos->posts);
   infos->replies = getPostNb(infos->posts);
   if (!(revisionId = getTopicRevisionId(topic, topicId)))
     return ;
@@ -300,6 +367,8 @@ void			setTopicInfos(t_topic_info *infos, json_t *topic, char *topicId)
 	  setTopicName(value, infos);
 	  setTopicDate(value, infos);
 	}
+      else if (key && value && !strcmp(key, lastId))
+	setTopicLastReply(value, infos);
     }
   return ;
 }
