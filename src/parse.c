@@ -1,9 +1,15 @@
 #include "parser.h"
 #include "jansson.h"
 
-t_topic			*initRoots(json_t *topicList)
+char			*getLastTopicId(t_topic *topic)
 {
-  t_topic		*topics;
+  while (topic && topic->next)
+    topic = topic->next;
+  return (topic ? topic->id : NULL);
+}
+
+t_topic			*initRoots(t_topic *topics, json_t *topicList)
+{
   json_t		*roots;
   json_t		*data;
   unsigned int		nb;
@@ -16,7 +22,6 @@ t_topic			*initRoots(json_t *topicList)
       printf("roots field is not an array\n");
       return (NULL);
     }
-  topics = NULL;
   nb = json_array_size(roots);
   while (i < nb)
     {
@@ -96,20 +101,17 @@ int			getTopicsName(json_t *topicList, t_topic *topics)
   return (0);
 }
 
-t_topic			*getFromJson(json_t *topicList)
+t_topic			*getFromJson(t_topic *topics, json_t *topicList)
 {
-  t_topic		*topics;
-
-  if (!(topics = initRoots(topicList)) ||
+  if (!(topics = initRoots(topics, topicList)) ||
       initPostIds(topicList, topics) ||
       getTopicsName(topicList, topics))
     return (NULL);
   return (topics);
 }
 
-t_topic		*getTopics(char *page)
+t_topic		*getTopics(t_topic *topics, char *page, char *lastId)
 {
-  t_topic	*topics;
   json_t	*json;
   json_t	*topicList;
   json_error_t	error;
@@ -117,6 +119,8 @@ t_topic		*getTopics(char *page)
   char		*content;
 
   url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topiclist&format=json&vtllimit=10&page="), page);
+  if (lastId)
+    url = append(append(url, "&vtloffset-id="), lastId);
   json = NULL;
   content = request(url);
   if (!content)
@@ -139,7 +143,7 @@ t_topic		*getTopics(char *page)
       json_decref(json);
       return (NULL);
     }
-  topics = getFromJson(topicList);
+  topics = getFromJson(topics, topicList);
   json_decref(json);
   return (topics);
 }

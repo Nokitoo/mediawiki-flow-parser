@@ -14,28 +14,27 @@ void		display_topic(t_topic *topic)
   printf("List of topics: \n");
   while (tmp)
     {
-      printf("%ld - %s\n", i++, tmp->id);
+      printf("%ld - %s\n", i++, tmp->name);
       tmp = tmp->next;
     }
   return ;
 }
 
-int		bot_response()
+int		bot_response(int *res)
 {
   char		buffer[32];
-  int		res;
 
   bzero(buffer, 32);
-  res = read(0, buffer, 32);
-  if (res == -1)
+  (*res) = read(0, buffer, 32);
+  if ((*res) == -1)
     return (-1);
-  buffer[res - 1] = '\0';
-  if (!strcmp(buffer, "exit") || res == 0)
+  buffer[(*res) - 1] = '\0';
+  if (!strcmp(buffer, "exit") || (*res) == 0)
     return (-2);
-  res = atoi(buffer);
-  if (res == 0)
-    return (-1);
-  return (res);
+  (*res) = atoi(buffer);
+  if ((*res) <= 0)
+    return (1);
+  return (0);
 }
 
 t_topic		*request_for_topic(t_topic *topic, int nb)
