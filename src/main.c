@@ -22,7 +22,8 @@ int		main(int ac, char **av)
   while (1)
     {
       if (man)
-	write(1, PROMPT, strlen(PROMPT));
+	if (write(1, PROMPT, strlen(PROMPT)) < 0)
+	  return (1);
       if (read_cmd(&topics, &infos, man))
 	return (1);
     }
