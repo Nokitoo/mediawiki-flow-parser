@@ -74,6 +74,79 @@ t_topic_info		*initTopicInfos(json_t *topic)
   return (infos);
 }
 
+char			*removeChars(char *s, int n)
+{
+  char			*tmp;
+
+  if (n <= 0 || !s)
+    return (s);
+  tmp = s;
+  while (s + n && *(s + n))
+    {
+      *s = *(s + n);
+      s++;
+    }
+  while (s && *s)
+    {
+      *s = '\0';
+      s++;
+    }
+  return (tmp);
+}
+
+int			getTagLength(char *s)
+{
+  int			length;
+  int			attribute;
+
+  length = 1;
+  attribute = 0;
+  if (!s || *s != '<' || !*(s + 1))
+    return (0);
+  s++;
+  if (*s == '/')
+    {
+      s++;
+      length++;
+      while (s && *s && *s != '>')
+	{
+	  if (!isAlpha(*s))
+	    return (0);
+	  s++;
+	  length++;
+	}
+    }
+  else
+    {
+      while (s && *s && (*s != '>' || attribute))
+	{
+	  if ((*s == '"' || (*s == '\'')) && !attribute)
+	    attribute = 1;
+	  else if ((*s == '"' || *s == '\'') && attribute && !isEscape(s))
+	    attribute = 0;
+	  s++;
+	  length++;
+	}
+    }
+  return (length);
+}
+
+char			*formatPostText(char *text)
+{
+  char			*tmp;
+  int			length;
+
+  tmp = text;
+  while (text && *text)
+    {
+      length = getTagLength(text);
+      if (length)
+	text = removeChars(text, length + 1);
+      text++;
+    }
+  return (tmp);
+}
+
 void			setRevisionInfos(t_post *post, json_t *revision)
 {
   json_t		*data;
@@ -89,7 +162,7 @@ void			setRevisionInfos(t_post *post, json_t *revision)
   if (json_is_string(data))
     {
       value = json_string_value(data);
-      post->text = value ? strdup(value) : NULL;
+      post->text = value ? formatPostText(strdup(value)) : NULL;
     }
 }
 

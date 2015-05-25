@@ -48,5 +48,8 @@ t_topic_info		*getTopicInfos(char *topicId);
 void			displayTopicInfos(t_topic_info *infos);
 void			destroy_topic_info(t_topic_info *infos);
 char			*lowerCase(char *s);
+int			isAlpha(char c);
+int			isEscape(char *s);
+char			*formatPostText(char *text);
 
 #endif /* !PARSER_H_ */
