@@ -41,10 +41,9 @@ t_topic		*viewtopiclist(t_topic *topics, char *url, int isHuman, int *from)
 {
   char		*lastId;
 
-  (void)isHuman;
   lastId = getLastTopicId(topics);
   topics = getTopics(topics, url, lastId);
-  display_topic(topics, &from);
+  display_topic(topics, &from, isHuman);
   return (topics);
 }
 

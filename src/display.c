@@ -4,7 +4,7 @@
 #include <strings.h>
 #include "parser.h"
 
-void		display_topic(t_topic *topic, int **from)
+void		display_topic(t_topic *topic, int **from, __attribute__((unused))int isHuman)
 {
   t_topic	*tmp;
   int		i;
