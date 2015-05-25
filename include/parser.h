@@ -12,6 +12,13 @@
 typedef struct		s_topic		t_topic;
 typedef struct		s_topic_info	t_topic_info;
 typedef struct		s_post		t_post;
+typedef struct		s_date		t_date;
+
+struct			s_date
+{
+  char			*timestamp;
+  char			*localTime;
+};
 
 struct			s_post
 {
@@ -26,6 +33,7 @@ struct			s_topic_info
   char			*name;
   int			replies;
   t_post		*posts;
+  t_date		date;
 };
 
 struct			s_topic
@@ -55,5 +63,6 @@ int			isAlpha(char c);
 int			isEscape(char *s);
 char			*formatPostText(char *text);
 char			*getLastTopicId(t_topic *topic);
+const char		*timestampToLocalTime(const char *timestamp);
 
 #endif /* !PARSER_H_ */

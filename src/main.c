@@ -17,6 +17,8 @@ int		main(int ac, char **av)
   infos = NULL;
   while (1)
     {
+      if (man)
+	write(1, PROMPT, strlen(PROMPT));
       if (read_cmd(&topics, &infos, man))
 	return (1);
     }

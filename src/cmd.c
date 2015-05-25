@@ -14,25 +14,26 @@ int		read_cmd(t_topic **topics, t_topic_info **infos, int isHuman)
   bzero(buffer, 64);
   len = read(0, buffer, 64);
   buffer[len - 1] = '\0';
-  if (len <= 0 || len == -1 || !strcmp(buffer, "exit"))
+  if (len <= 0 || !strcmp(buffer, "exit"))
     return (1);
   str = strtok(buffer, " ");
   str = strtok(NULL, " ");
-  if (!str)
-    return (1);
-  if (!strcmp(buffer, "view-topiclist"))
+  if (str)
     {
-      if (!url || strcmp(url, str))
+      if (!strcmp(buffer, "view-topiclist"))
 	{
-	  from = 1;
-	  if (url)
-	    free(url);
-	  url = strdup(str);
+	  if (!url || strcmp(url, str))
+	    {
+	      from = 1;
+	      if (url)
+		free(url);
+	      url = strdup(str);
+	    }
+	  *topics = viewtopiclist(*topics, url, isHuman, &from);
 	}
-      *topics = viewtopiclist(*topics, url, isHuman, &from);
+      else if (!strcmp(buffer, "view-topic"))
+	*infos = viewtopic(*topics, *infos, str);
     }
-  else if (!strcmp(buffer, "view-topic"))
-    *infos = viewtopic(*topics, *infos, str);
   return (0);
 }
 

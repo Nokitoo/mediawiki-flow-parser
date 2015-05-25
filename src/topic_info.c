@@ -8,6 +8,7 @@ void		displayTopicInfos(t_topic_info *infos)
   post = infos->posts;
   printf("[%s]\n", infos->name);
   printf("[%d]\n\n", infos->replies);
+  printf("[%s] [%s]\n\n", infos->date.timestamp, infos->date.localTime);
   while (post)
     {
       printf("[%s]\n", post->author);
@@ -87,6 +88,8 @@ t_topic_info		*initTopicInfos(json_t *topic)
   if (!(infos = malloc(sizeof(*infos))))
     return (NULL);
   infos->posts = NULL;
+  infos->date.timestamp = NULL;
+  infos->date.localTime = NULL;
   infos->replies = 0;
   return (infos);
 }
@@ -240,22 +243,51 @@ const char	*getTopicRevisionId(json_t *topic, char *topicId)
   return (NULL);
 }
 
-const char		*getTopicName(json_t *topic, char *topicId)
+void		setTopicDate(json_t *revision, t_topic_info *infos)
+{
+  json_t	*content;
+  const char	*timestamp;
+  const char	*localTime;
+
+  content = json_object_get(revision, "timestamp");
+  if (json_is_string(content))
+    {
+      timestamp = json_string_value(content);
+      localTime = timestampToLocalTime(timestamp);
+      infos->date.timestamp = timestamp ? strdup(timestamp) : NULL;
+      infos->date.localTime =  localTime ? strdup(localTime) : NULL;
+    }
+}
+
+void		setTopicName(json_t *revision, t_topic_info *infos)
+{
+  json_t	*content;
+  const char	*name;
+
+  content = json_object_get(json_object_get(revision, "content"), "content");
+  if (json_is_string(content))
+    {
+      name = json_string_value(content);
+      infos->name = name ? strdup(name) : NULL;
+    }
+}
+
+void			setTopicInfos(t_topic_info *infos, json_t *topic, char *topicId)
 {
   json_t		*revisions;
   void			*iter;
   const char		*key;
   json_t		*value;
-  json_t		*content;
   const char		*revisionId;
 
+  infos->replies = getPostNb(infos->posts);
   if (!(revisionId = getTopicRevisionId(topic, topicId)))
-    return (NULL);
+    return ;
   revisions = json_object_get(topic, "revisions");
   if (!json_is_object(revisions))
     {
       printf("Can't find revisions field\n");
-      return (NULL);
+      return ;
     }
   iter = json_object_iter(revisions);
   while (iter)
@@ -265,21 +297,11 @@ const char		*getTopicName(json_t *topic, char *topicId)
       iter = json_object_iter_next(revisions, iter);
       if (key && value && !strcmp(key, revisionId))
 	{
-	  content = json_object_get(json_object_get(value, "content"), "content");
-	  if (json_is_string(content))
-	    return (json_string_value(content));
+	  setTopicName(value, infos);
+	  setTopicDate(value, infos);
 	}
     }
-  return (NULL);
-}
-
-void			setTopicInfos(t_topic_info *infos, json_t *topic, char *topicId)
-{
-  const char		*name;
-
-  infos->replies = getPostNb(infos->posts);
-  name = getTopicName(topic, topicId);
-  infos->name = name ? strdup(name) : NULL;
+  return ;
 }
 
 t_topic_info		*getTopicInfos(char *topicId)
