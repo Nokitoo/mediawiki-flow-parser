@@ -18,7 +18,7 @@ int		read_cmd(t_topic **topics, t_topic_info **infos)
   str = strtok(NULL, " ");
   if (!strcmp(buffer, "view-topiclist"))
     *topics = viewtopiclist(*topics, str);
-  else if (!strcmp(buffer, "view-topics"))
+  else if (!strcmp(buffer, "view-topic"))
     *infos = viewtopic(*topics, *infos, str);
   return (0);
 }
