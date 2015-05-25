@@ -22,7 +22,7 @@ Installation instructions
     $ sudo make install
 ```
 3. Start the API with the url of flow as parameter:
-``shell
+```shell
     $ cd API_PATH
     $ make
     $ ./flow_parser "http://url_of_flow/"
@@ -31,8 +31,8 @@ Installation instructions
 ```shell
    $ Type "exit" or press ^D to exit the API
 ```
-Other resources
----------------
+Other
+-----
 
 The mediawiki flow page: http://www.mediawiki.org/wiki/Flow
 This project is under MIT License see `LICENSE` file for more details.
