@@ -1,5 +1,6 @@
 #ifndef PARSER_H_
 # define PARSER_H_
+# define TOPICS_LIMIT "10"
 
 # include <stdio.h>
 # include <string.h>

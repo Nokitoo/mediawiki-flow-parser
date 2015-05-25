@@ -118,7 +118,7 @@ t_topic		*getTopics(t_topic *topics, char *page, char *lastId)
   char		*url;
   char		*content;
 
-  url = append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topiclist&format=json&vtllimit=10&page="), page);
+  url = append(append(append(append(NULL, "https://fr.wikipedia.org/w/api.php?action=flow&submodule=view-topiclist&format=json&vtllimit="), TOPICS_LIMIT), "&page="), page);
   if (lastId)
     url = append(append(url, "&vtloffset-id="), lastId);
   json = NULL;
