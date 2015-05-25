@@ -23,6 +23,8 @@ struct			s_post
 
 struct			s_topic_info
 {
+  char			*name;
+  int			replies;
   t_post		*posts;
 };
 
