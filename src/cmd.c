@@ -33,7 +33,11 @@ int		read_cmd(t_topic **topics, t_topic_info **infos, int isHuman)
 	}
       else if (!strcmp(buffer, "view-topic"))
 	*infos = viewtopic(*topics, *infos, str, isHuman);
+      else
+	printf("[Error] Wrong command\n");
     }
+  else
+    printf("[Error] Need more arguments\n");
   return (0);
 }
 
