@@ -22,12 +22,13 @@ Installation instructions
 	$ make
 	$ sudo make install
 ```
-3.&nbsp;Start the API with the url of flow as parameter
+3.&nbsp;Start the API
 ```shell
 	$ cd API_PATH
 	$ make
-	$ ./flow_parser "http://url_of_flow/"
+	$ ./flow_parser [-H]
 ```
+	-H argument increase human readability.
 4.&nbsp;Use of API
 ```shell
 	$ Type "exit" or press ^D to exit the API
