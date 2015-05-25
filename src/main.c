@@ -27,6 +27,6 @@ int		main()
 	  if (tmp){}
 	}
     }
-  destroy_linked_list(&topic);
+  destroy_topics(topic);
   return (0);
 }

@@ -16,17 +16,6 @@
 #define URL_FORMAT   "https://api.github.com/repos/%s/%s/commits"
 #define URL_SIZE     256
 
-/* Return the offset of the first newline in text or the length of
-   text if there's no newline */
-/*static int newline_offset(const char *text)
-{
-    const char *newline = strchr(text, '\n');
-    if(!newline)
-        return strlen(text);
-    else
-        return (int)(newline - text);
-	}*/
-
 struct write_result
 {
     char *data;
@@ -56,7 +45,6 @@ char *request(const char *url)
     char *data = NULL;
     long code;
 
-    curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
     if(!curl)
         goto error;
@@ -72,8 +60,7 @@ char *request(const char *url)
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
-    /* GitHub commits API v3 requires a User-Agent header */
-    headers = curl_slist_append(headers, "User-Agent: Jansson-Tutorial");
+    headers = curl_slist_append(headers, "User-Agent: Mozilla/5.0");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_response);
@@ -111,5 +98,5 @@ error:
     if(headers)
         curl_slist_free_all(headers);
     curl_global_cleanup();
-    return NULL;
+    return (NULL);
 }
