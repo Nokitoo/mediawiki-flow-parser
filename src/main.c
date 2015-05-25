@@ -13,12 +13,11 @@ int		main(int ac, char **av)
   while ((arg = getopt(ac, av, "H")) > 0)
     if (arg == 'H')
       man = 1;
-  (void)man;
   topics = NULL;
   infos = NULL;
   while (1)
     {
-      if (read_cmd(&topics, &infos))
+      if (read_cmd(&topics, &infos, man))
 	return (1);
     }
   destroy_topics(topics);

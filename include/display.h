@@ -5,7 +5,7 @@
 
 #include	"parser.h"
 
-void		display_topic(t_topic *topic);
+void		display_topic(t_topic *topic, int **from);
 void		destroy_topics(t_topic *topic);
 int	        bot_response(int *res);
 t_topic		*request_for_topic(t_topic *topic, int nb);
