@@ -4,8 +4,8 @@
 #include "parser.h"
 #include "display.h"
 
-int		read_cmd(t_topic **topics, t_topic_info **infos);
-t_topic		*viewtopiclist(t_topic *topics, char *url);
+int		read_cmd(t_topic **topics, t_topic_info **infos, int isHuman);
+t_topic		*viewtopiclist(t_topic *topics, char *url, int isHuman, int *from);
 t_topic_info    *viewtopic(t_topic *topic, t_topic_info *infos, char *url);
 
 #endif /*	_CMD_H_ */

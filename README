@@ -7,27 +7,29 @@ API_PATH is the directory path of API.
 Installation instructions
 -------------------------
 
-1. Install the cURL library:
+1. Install the cURL library
 
     $ cd API_PATH/curl
     $ ./configure
     $ make
     $ sudo make install
 
-2. Install the jansson library:
+2. Install the jansson library
 
     $ cd API_PATH/jansson
     $ ./configure
     $ make
     $ sudo make install
 
-3. Start the API with the url of flow as parameter:
+3. Start the API
 
     $ cd API_PATH
     $ make
-    $ ./flow_parser "http://url_of_flow/"
+    $ ./flow_parser [-H]
 
-4. Use of API:
+    -H argument increase human readability.
+
+4. Use of API
 
    $ Type "exit" or press ^D to exit the API
 
