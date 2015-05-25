@@ -8,13 +8,21 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-typedef struct		s_topic	t_topic;
-typedef struct		s_post	t_post;
+typedef struct		s_topic		t_topic;
+typedef struct		s_topic_info	t_topic_info;
+typedef struct		s_post		t_post;
 
 struct			s_post
 {
   char			*id;
+  char			*author;
+  char			*text;
   t_post		*next;
+};
+
+struct			s_topic_info
+{
+  t_post		*posts;
 };
 
 struct			s_topic
@@ -36,9 +44,9 @@ void			parseJson(char *html);
 int			get(char *url);
 char			*append(char *s1, char *s2);
 char			*request(const char *url);
-t_post			*getTopicPosts(char *topicName);
-void			displayPosts(t_post *post);
-void			destroy_posts(t_post *post);
+t_topic_info		*getTopicInfos(char *topicId);
+void			displayTopicInfos(t_topic_info *infos);
+void			destroy_topic_info(t_topic_info *infos);
 char			*lowerCase(char *s);
 
 #endif /* !PARSER_H_ */
