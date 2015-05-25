@@ -9,7 +9,27 @@ int		usage(char *bin)
 
 int		main()
 {
-  t_topic	*topic;
+  t_topic	*topics;
+  char		*lastId;
+
+  lastId = NULL;
+  topics = NULL;
+  if (!(topics = getTopics(topics, "Wikipédia:Forum_des_nouveaux/Flow", lastId)))
+    return (1);
+  display_topic(topics);
+  lastId = getLastTopicId(topics);
+  if (!(topics = getTopics(topics, "Wikipédia:Forum_des_nouveaux/Flow", lastId)))
+    return (1);
+  printf("\n\n");
+  display_topic(topics);
+  lastId = getLastTopicId(topics);
+  if (!(topics = getTopics(topics, "Wikipédia:Forum_des_nouveaux/Flow", lastId)))
+    return (1);
+  printf("\n\n");
+  display_topic(topics);
+  destroy_topics(topics);
+  return (0);
+  /*t_topic	*topic;
   t_topic	*tmp;
   int		res;
 
@@ -27,6 +47,6 @@ int		main()
 	  if (tmp){}
 	}
     }
-  destroy_topics(topic);
+    destroy_topics(topic);*/
   return (0);
 }
