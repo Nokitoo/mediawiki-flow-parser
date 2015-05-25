@@ -4,17 +4,22 @@
 #include <strings.h>
 #include "parser.h"
 
-void		display_topic(t_topic *topic)
+void		display_topic(t_topic *topic, int **from)
 {
-  long		i;
   t_topic	*tmp;
+  int		i;
 
   i = 1;
   tmp = topic;
+  while (i < **from && tmp)
+    {
+      ++i;
+      tmp = tmp->next;
+    }
   printf("List of topics: \n");
   while (tmp)
     {
-      printf("%ld - %s\n", i++, tmp->name);
+      printf("%d - %s\n", (**from)++, tmp->name);
       tmp = tmp->next;
     }
   return ;
